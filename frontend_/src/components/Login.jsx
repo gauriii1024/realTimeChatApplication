@@ -1,14 +1,18 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { setAuthUser } from '../redux/userSlice.js'
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [user, setUser] = useState({
     username: "",
     password: ""
-  })
+  });
+  
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -16,15 +20,18 @@ const Login = () => {
         headers: {
           'Content-type': 'application/json'
         },
-        withCrediantials: true
+        withCredentials : true
       })
 
       navigate("/")
-      toast.success(res.data.message);
+      console.log(res.data);
+    
+      dispatch(setAuthUser(res.data))
 
 
     } catch (error) {
-      toast.error(error.response.data.message)
+      const errorMessage = error?.response?.data?.message || "An error occurred during login";
+      toast.error(errorMessage);
       console.log(error)
     }
     console.log(user);
