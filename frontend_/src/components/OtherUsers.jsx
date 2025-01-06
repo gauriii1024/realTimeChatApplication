@@ -3,8 +3,6 @@ import OtherUser from './OtherUser.jsx'
 import useGetOtherUsers from '../hooks/useGetOtherUsers.jsx'
 import { useSelector } from 'react-redux'
 
-
-
 const OtherUsers = () => {
     useGetOtherUsers()
     const {otherUsers} = useSelector(store => store.user)
