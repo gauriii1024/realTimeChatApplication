@@ -1,6 +1,8 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const Message = () => {
+    //const {authUser,selectedUser} = useSelector(store=>store.user);
     return (
         <div className="chat chat-end">
             <div className="chat-image avatar">

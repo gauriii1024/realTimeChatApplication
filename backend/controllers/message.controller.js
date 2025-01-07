@@ -1,6 +1,5 @@
 import { Conversation } from "../models/conversation.model.js";
 import { Message } from "../models/message.model.js";
-import mongoose from "mongoose";
 
 export const sendMessage = async (req, res) => {
     try {
@@ -43,7 +42,7 @@ export const getMessage = async (req, res) => {
         const conversation = await Conversation.findOne({
             participants: {$all: [senderId, recieverId]}
         }).populate("messages")
-        // console.log(conversation);
+        console.log(conversation);
         return res.status(200).json(conversation?.messages);
         
         
