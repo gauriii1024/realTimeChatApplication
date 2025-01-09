@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 
-const Message = () => {
+const Message = ({message}) => {
     //const {authUser,selectedUser} = useSelector(store=>store.user);
     return (
         <div className="chat chat-end">
@@ -15,7 +15,7 @@ const Message = () => {
             <div className='chat-header'>
                 <time className='text-xs opacity-50'>12:45</time>
             </div>
-            <div className="chat-bubble">Hi</div>
+            <div className="chat-bubble">{message?.message}</div>
         </div>
     )
 }
