@@ -24,7 +24,7 @@ const Login = () => {
       })
 
       navigate("/")
-      console.log(res.data);
+      //console.log(res.data);
     
       dispatch(setAuthUser(res.data))
 
@@ -34,7 +34,7 @@ const Login = () => {
       toast.error(errorMessage);
       console.log(error)
     }
-    console.log(user);
+    //console.log(user);
     setUser({
       username: "",
       password: ""

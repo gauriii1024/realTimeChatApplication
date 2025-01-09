@@ -1,16 +1,22 @@
-import {createSlice} from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 
 const messageSlice = createSlice({
     name: "message",
     initialState: {
-        messages: null,
+        messages: [],
     },
     reducers: {
         setMessages: (state, action) => {
-            state.messages = action.payload;
-        }
+            const newMessages = action.payload.filter(newMessage =>
+                !state.messages.some(existingMessage => existingMessage._id === newMessage._id)
+            );
+            state.messages = [...state.messages, ...newMessages];
+        },
+        resetMessages: (state) => {
+            state.messages = [];
+        },
     }
 })
 
-export const {setMessages} = messageSlice.actions;
+export const { setMessages, resetMessages } = messageSlice.actions;
 export default messageSlice.reducer;

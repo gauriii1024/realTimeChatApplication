@@ -7,7 +7,7 @@ export const sendMessage = async (req, res) => {
         const recieverId = req.params.id;
         const {message} = req.body;
         let gotConversation = await Conversation.findOne({
-            participant:{$all : [senderId, recieverId]}
+            participants:{$all : [senderId, recieverId]}
         })
         if (!gotConversation) {
             gotConversation = await Conversation.create({
@@ -22,8 +22,9 @@ export const sendMessage = async (req, res) => {
         });
         if (newMessage) {
             gotConversation.messages.push(newMessage._id);
+            await gotConversation.save();
         }
-        await gotConversation.save();
+        console.log("Updated Conversation:", gotConversation.messages);
         //socket.io
 
         return res.status(201).json({
@@ -41,8 +42,12 @@ export const getMessage = async (req, res) => {
         const senderId = req.id;
         const conversation = await Conversation.findOne({
             participants: {$all: [senderId, recieverId]}
-        }).populate("messages")
-        console.log(conversation);
+        }).populate({
+            path: 'messages',
+            options: { sort: { createdAt: 1 } } 
+        });
+        console.log("Populated conversation:", conversation);
+
         return res.status(200).json(conversation?.messages);
         
         
