@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SendInput from './SendInput.jsx';
 import Messages from './Messages.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedUser } from '../redux/userSlice.js';
 
 const MessageContainer = () => {
+    
     const dispatch = useDispatch();
   const { selectedUser, authUser } = useSelector(store => store.user);
   useEffect(() => {
