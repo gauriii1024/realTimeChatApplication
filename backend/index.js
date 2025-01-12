@@ -16,11 +16,11 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(cookieParser())
 
-const corsOption={
+const corsOptions={
     origin:'http://localhost:3000',
     credentials: true
 };
-app.use(cors(corsOption))
+app.use(cors(corsOptions))
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/message", messageRoute);
