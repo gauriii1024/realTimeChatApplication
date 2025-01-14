@@ -3,9 +3,11 @@ import './App.css';
 import SignUp from './components/SignUp.jsx';
 import HomePage from './components/HomePage.jsx';
 import Login from './components/Login.jsx';
-import { useSelector } from 'react-redux';
-import { io } from 'socket.io-client';
+import { useDispatch, useSelector } from 'react-redux';
+import io from 'socket.io-client';
 import { useEffect, useState } from 'react';
+import { setSocket } from './redux/socketSlice.js';
+import { setOnlineUSers } from './redux/userSlice.js';
 
 const router = createBrowserRouter([
   {
@@ -23,14 +25,27 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  const [socket, setSocket] = useState(null)
+  const dispatch = useDispatch()
+  const {socket} = useSelector(store => store.socket)
   const {authUser} = useSelector(store => store.user)
   useEffect (() => {
     if (authUser) {
       const socket = io('http://localhost:8080', {
-        path: '/socket.io',
-      }) ;
-      setSocket(socket)
+        query: {
+          userId: authUser._id,
+        }
+      });
+      dispatch(setSocket(socket))
+
+      socket.on('getOnlineUsers', (onlineUsers) => {
+        dispatch(setOnlineUSers)
+      });
+      return () => socket.close();
+    }else {
+      if (socket) {
+        socket.close()
+        setSocket(setSocket(null))
+      }
     }
   }, [authUser])
   return (
